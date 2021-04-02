@@ -1,14 +1,9 @@
+module V2
 class ContactsController < ApplicationController
   before_action :set_contact, only: [:show, :update, :destroy]
   # GET /contacts
   def index
-    # if params[:version] == '1'
-    #   @contacts = Contact.all
-    # elsif params[:version] == '2'
-    #   @contacts = Contact.last(2).reverse
-    # end
-    
-    @contacts = Contact.all
+    @contacts = Contact.last(2)
 
     # render json: @contacts, status: :partial_content 
     # render json: @contacts, root: true
@@ -84,4 +79,5 @@ class ContactsController < ApplicationController
       ActiveModelSerializers::Deserialization.jsonapi_parse(params)
     end
 
+end
 end

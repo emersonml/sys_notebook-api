@@ -1,0 +1,5 @@
+'pt-BR':
+  hello: "Olá Mundo"
+
+
+ ## rails c I18n.translate('hello')  |  I18n.default_locale ==>>> "pt-BR"
