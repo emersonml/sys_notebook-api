@@ -1,0 +1,112 @@
+REST => Transferencia de Estado Representacional
+
+VERBO/METODOS HTTP
+get, post, patch, put, delete
+
+curl http://45.177.133.13:3000/contacts -i -v -X POST -H "Content-Type: application/json" -d '{"name": "emerson", "email": "artes.emerson@gmail.com", "birthdate": "21/02/1985"}'
+curl http://45.177.133.13:3000/contacts/51 -i -v 
+curl http://45.177.133.13:3000/contacts/53 -i -v -X PATCH -H "Content-Type: application/json" -d '{"name": "emerson marques de lima"}'
+curl http://45.177.133.13:3000/contacts/53 -i -v -X DELETE
+curl http://45.177.133.13:3000/contacts/53 -i -v -X PATCH -H "Accept: application/vnd.api+json" -u emerson:123456 -d '{"name": "emerson marques de lima"}'
+
+
+-i inspecionar
+-v verboso
+-X verbo REst
+-H header fielder 
+-d DADOS
+-k key
+
+1. Internet Task Force - IETF  ( instituicao que organiza as coisas da internet )
+  1.1 RFC`s Request for Comments = documentos técnicos 
+
+  HTTP Status codes
+   1xx Informacional
+   2xx Success (entre o cliente e servidor)
+   3xx Redirection (passo adicional)
+   4xx Client Error
+   5xx Server Error
+##   http://guides.rubyonrails.org/layouts_and_rendering.html
+
+Render JSON
+ACTIVE SUPPORT JSON
+  x = {nome: "emerson"}                |   x.class ==== hash
+  y = ActiveSupport::JSON.encode(x)    |   y.class  ====  string
+ACTIVE MODEL SERIALIZERS JSON
+  contact = Contact.first  ### contact agora é um modelo ou objeto
+  contact.as_json ===>>>  pega o   modelo ou objeto  e transforma em um hast  ####  contact.as_json  agora é um hash
+  contact.as_json.to_json  ===>>>  pega o hash e transforma em uma string 
+  contact.as_json.to_json.class  = vai ser igual a string
+
+  root: true  ===>>> ativar a raiz  o resultado da request agora vem com a raiz q é {"contact": {"id": 1,}}
+
+  rails g migration add_kind_to_contact kind:references
+  rails g scaffold kind description:string
+
+  rails g model Phone number:string contact:references
+
+  rails db
+  PRAGMA table_info([tabela]);
+
+  rails c 
+    c = Contact.first
+    c.phones
+    c.phones.count
+  
+  rails c
+    Contact.create( name: "Emerson", email: "emerson@.com", birthdate: "21/02/1985", kind_id: 3)
+           ou
+    params = { k_contact: { name: "Emerson", email: "emerson@.com", birthdate: "21/02/1985", kind_id: 3 }}
+    Contact.create(params[:k_contact])
+
+#1############  rails c
+    params = {k_contacts:
+      {
+        name: "eumesmo",
+        email: "emerson@.com", 
+        birthdate: "21/02/1985", 
+        kind_id: 3,
+        phones_attributes: [
+          { number: '1234'},
+          { number: '2355'},
+          { number: '3466'}
+        ]
+      }
+    }
+
+params = {k_contacts: { name: "eumesmo", email: "emerson@.com", birthdate: "21/02/1985", kind_id: 3, phones_attributes: [ { number: '1234'}, { number: '2355'}, { number: '3466'}]}}
+Contact.create!(params[:k_contacts])
+
+Contact.last
+Contact.last.phones
+############1#
+
+CRUD COM NESTED ATTRIBUTES  create, read(include), update, delete 
+
+### criando TABLE Addresses
+
+  rails g model Address street:string city:string contact:references
+   chmod o=rw 
+
+
+   Address.where(contact_id: 102)
+
+
+   ***************** 
+   ip="`ip addr show | grep global | grep -oE '((1?[0-9][0-9]?|2[0-4][0-9]|25[0-5])\.){3}(1?[0-9][0-9]?|2[0-4][0-9]|25[0-5])' | sed -n '1p'`"
+   echo $ip
+   *****************
+
+   curl http://45.177.133.13:3000/contacts/4 -v -H "Accept: application/json" 
+
+rack middleware
+    rails middleware
+
+      # puts ">>>>>>>>>>>>>>>>>  #{env} " 
+===============
+gem 'rspec-rails', '~> 3.5'
+rails g rspec:install
+bundle exec rspec
+bundle exec rspec --format documentation ## mostra o que tem dentro do it
+
+rails dev:setup RAILS_ENV=test
